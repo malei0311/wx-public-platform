@@ -1,0 +1,44 @@
+{
+  "name": "微信公众平台-统计映射",
+  "version": "1.0",
+  "description": "小程序数据后台，路径映射",
+  "author": "malei0311",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "webNavigation",
+    "webRequest",
+    "*://mp.weixin.qq.com/*"
+  ],
+  "options_page": "options/options.html",
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "web_accessible_resources": [
+    "content/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://mp.weixin.qq.com/*"],
+      "css": ["content/content.css"],
+      "js": ["content/content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "browser_action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "images/wechat.png",
+      "32": "images/wechat.png",
+      "48": "images/wechat.png",
+      "128": "images/wechat.png"
+    }
+  },
+  "icons": {
+    "16": "images/wechat.png",
+    "32": "images/wechat.png",
+    "48": "images/wechat.png",
+    "128": "images/wechat.png"
+  },
+  "manifest_version": 2
+}

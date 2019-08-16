@@ -1,0 +1,18 @@
+body {
+  background-color: red;
+}
+
+.__wx-metadata-parent {
+  position: relative;
+}
+
+.__wx-metadata {
+  position: absolute;
+  top: 0;
+  left: 0;
+  line-height: 1;
+  padding: 2px 4px;
+  font-size: 12px;
+  color: #9a9a9a;
+  background: #f6f8f9;
+}
