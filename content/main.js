@@ -1,14 +1,15 @@
 import {
   observe,
   find,
-  throttle
+  throttle,
+  debounce
 } from './utils.js'
 
+import config from './config.js'
+
 let observers = []
-const config = {
-  'pages/index/index': '动态',
-  'pages/editUserInfo/index': 'xxxx'
-}
+
+export const main = debounce(entry, 300)
 
 function clear () {
   observers.forEach((observer) => {
@@ -17,9 +18,9 @@ function clear () {
   observers = []
 }
 
-export function main (isEnable = false, pathname) {
-  console.log('---- main', isEnable, pathname)
-  if (!isEnable) {
+function entry ({ type, pathname, action }) {
+  console.log('---- main', type, pathname, action)
+  if (type === 'page' && action === 'inactive') {
     clear()
     return
   }
@@ -34,11 +35,32 @@ export function main (isEnable = false, pathname) {
     observers = Array.from(els).map((el) => {
       const tbody = el.parentElement.previousSibling.querySelector('tbody')
       return observe(el, (mutationType) => {
-        console.log(`pathname: ${pathname}, mutaiton type: ${mutationType}`)
         handle(tbody.querySelectorAll('tr'))
       })
     })
   })
+  if (isOntimePage()) {
+    find('.weui-desktop-form__dropdown-label>.weui-desktop-form__dropdown__inner-button', (els) => {
+      if (!els.length) {
+        return
+      }
+      const el = els[0]
+      el.removeEventListener('click', listener, false)
+      el.addEventListener('click', listener, false)
+    })
+  }
+}
+
+function isOntimePage () {
+  return location.pathname === '/wxamp/statistics/ontime'
+}
+
+function listener (e) {
+  console.log('click', e)
+  if (!isOntimePage() || !e.target.nextElementSibling) {
+    return
+  }
+  handler(e.target.nextElementSibling.querySelectorAll('.weui-desktop-dropdown__list-ele'))
 }
 
 function handler (trs) {
@@ -53,18 +75,20 @@ function handler (trs) {
       return
     }
     url = url[1]
-    const parentClass = '__wx-metadata-parent'
-    const itemClass = '__wx-metadata'
-    const item = td.firstElementChild
-    if (item && item.className === itemClass) {
-      td.removeChild(item)
-    }
-    if (config[url]) {
-      const classes = td.className.split(/\s+/)
-      if (!classes.includes(parentClass)) {
-        td.className += ` ${parentClass}`
+    const className = '__wx-metadata'
+    const meta = config[url] || ''
+    td.setAttribute('data-meta', meta)
+    const classes = td.className.split(/\s+/)
+    const index = classes.indexOf(className)
+    if (meta) {
+      if (index === -1) {
+        td.className += ` ${className}`
       }
-      td.insertAdjacentHTML('afterbegin', `<span class="${itemClass}">${config[url]}</span>`)
+    } else {
+      if (index > -1) {
+        classes.splice(index, 1)
+        td.className = classes.join(' ')
+      }
     }
   })
 }

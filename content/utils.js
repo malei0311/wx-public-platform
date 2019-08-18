@@ -79,3 +79,10 @@ export function find (selector, callback, maxTime = 100) {
 
   doFind(selector, callback)
 }
+
+export function logSearchParams (params) {
+  if (!(params instanceof URLSearchParams)) {
+    return
+  }
+  console.table(Array.from(params))
+}

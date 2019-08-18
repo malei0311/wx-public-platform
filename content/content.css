@@ -2,11 +2,13 @@ body {
   background-color: red;
 }
 
-.__wx-metadata-parent {
+.__wx-metadata {
   position: relative;
+  padding-top: 16px !important;
 }
 
-.__wx-metadata {
+.__wx-metadata:after {
+  content: attr(data-meta);
   position: absolute;
   top: 0;
   left: 0;
