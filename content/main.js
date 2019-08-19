@@ -20,7 +20,6 @@ function clear () {
 }
 
 async function entry ({ type, pathname, action }) {
-  console.log('---- main', type, pathname, action)
   if (type === 'page' && action === 'inactive') {
     clear()
     return
@@ -78,7 +77,6 @@ function isOntimePage () {
 }
 
 function listener (e) {
-  console.log('click', e)
   if (!isOntimePage() || !e.target.nextElementSibling) {
     return
   }

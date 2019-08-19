@@ -44,7 +44,6 @@ window.__wx_meta_data_ins = new Vue({
       this.activeId = this.prevActiveId
     },
     onNewSuccess (id) {
-      console.log('new success', id)
       this.activeId = id
       this.isNew = false
       this.getData()
