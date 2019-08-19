@@ -116,6 +116,7 @@ html, body {
 
 .right {
   flex: 1;
+  overflow: auto;
 }
 
 .item-new-wrp {
