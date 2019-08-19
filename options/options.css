@@ -1,0 +1,192 @@
+:root {
+  --main-bg-color: #f7f7f7;
+  --side-bg-color: #fdfdfd;
+  --main-color: #09bb07;
+  --border-color: #e7e7eb;
+  --danger-color: #e64340;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-size: 14px;
+}
+
+.app {
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+}
+
+.left {
+  width: 180px;
+  flex: none;
+  background-color: var(--side-bg-color);
+  border-right: 1px solid var(--border-color);
+}
+
+.logo {
+  display: flex;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  background-color: var(--main-bg-color);
+  box-shadow: 0 1px 0 0 rgba(0,0,0,.06);
+}
+
+.logo>img {
+  height: 20px;
+  width: 20px;
+  margin-right: 6px;
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  height: 50px;
+}
+
+.btn {
+  height: 30px;
+  line-height: 30px;
+  flex: 1;
+  text-align: center;
+  color: #fff;
+  background-color: var(--main-color);
+  cursor: pointer;
+  border: none;
+  min-width: 60px;
+}
+
+.btn.btn-plain {
+  background-color: var(--main-bg-color);
+  color: #000;
+}
+.btn.btn-danger {
+  background-color: var(--danger-color);
+}
+
+.items-title {
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
+  font-weight: bold;
+  background-color: var(--main-bg-color);
+}
+
+.items {
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px 0 20px;
+  position: relative;
+  border-bottom: 1px solid var(--main-bg-color);
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.item:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  margin-top: -2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: #000;
+}
+
+.item.active {
+  color: var(--main-color);
+}
+.item.active:after {
+  background-color: var(--main-color);
+}
+
+.right {
+  flex: 1;
+}
+
+.item-new-wrp {
+  padding: 20px;
+}
+
+.form-item {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.form-item input {
+  height: 30px;
+  line-height: 30px;
+  margin: 0;
+  padding: 0 6px;
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+}
+
+.form-item input.error {
+  border-color: var(--danger-color);
+}
+
+.form-item label {
+  display: block;
+  width: 70px;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.form-item .btn {
+  margin-left: 80px;
+  flex: none;
+}
+
+.form-item .btn-plain {
+  margin-left: 10px;
+}
+
+.actions {
+  display: flex;
+  height: 40px;
+  padding: 0 20px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--main-bg-color);
+}
+
+.actions .msg {
+  height: 30px;
+  line-height: 30px;
+}
+
+.actions .btn-danger {
+  flex: none;
+}
+
+.edit-items {
+  padding: 20px;
+}
+
+.msg-info {
+  padding: 20px;
+}
+
+.edit-items .form-item input {
+  margin-right: 10px;
+}
+
+.edit-items .form-item .btn-danger {
+  margin-left: 0;
+}

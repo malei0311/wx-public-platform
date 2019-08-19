@@ -17,6 +17,7 @@
   "web_accessible_resources": [
     "content/*"
   ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://cdn.jsdelivr.net; object-src 'self'",
   "content_scripts": [
     {
       "matches": ["*://mp.weixin.qq.com/*"],

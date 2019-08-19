@@ -1,0 +1,50 @@
+:root {
+  --main-color: #09bb07;
+  --main-bg-color: #f7f7f7;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-size: 14px;
+}
+
+body {
+  width: 180px;
+}
+
+.items {
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px 0 10px;
+  border-bottom: 1px solid var(--main-bg-color);
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.item:hover {
+  background-color: var(--main-bg-color);
+}
+
+.item.active {
+  color: #fff;
+  background-color: var(--main-color);
+}
+.item.active:hover {
+  background-color: var(--main-color);
+}
+.item a {
+  display: block;
+  margin: 0 -10px;
+  padding: 0 10px;
+  color: inherit;
+  text-decoration: none;
+}

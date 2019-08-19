@@ -17,4 +17,5 @@ body {
   font-size: 12px;
   color: #9a9a9a;
   background: #f6f8f9;
+  white-space: nowrap;
 }

@@ -2,12 +2,13 @@ import {
   observe,
   find,
   throttle,
-  debounce
+  debounce,
+  storage
 } from './utils.js'
-
-import config from './config.js'
+import { STORE_ACTIVE_ID } from './config.js'
 
 let observers = []
+let config = {}
 
 export const main = debounce(entry, 300)
 
@@ -18,13 +19,14 @@ function clear () {
   observers = []
 }
 
-function entry ({ type, pathname, action }) {
+async function entry ({ type, pathname, action }) {
   console.log('---- main', type, pathname, action)
   if (type === 'page' && action === 'inactive') {
     clear()
     return
   }
   clear()
+  config = await getConfig()
   const handle = throttle(handler, 500)
   find('.app_graph_content>table>tbody', (els) => {
     Array.from(els).map((tbody) => {
@@ -49,6 +51,26 @@ function entry ({ type, pathname, action }) {
       el.addEventListener('click', listener, false)
     })
   }
+}
+
+function getConfig () {
+  return storage.get(STORE_ACTIVE_ID).then((items) => {
+    const activeId = items[STORE_ACTIVE_ID] || ''
+    if (!activeId) {
+      return {}
+    }
+    return storage.get(activeId).then((e) => {
+      const target = e[activeId] || {}
+      const list = target.items || []
+      return list.reduce((t, item) => {
+        t[item.path] = item.desc
+        return t
+      }, {})
+    })
+  }).catch((e) => {
+    console.log('get config error', e)
+    return {}
+  })
 }
 
 function isOntimePage () {

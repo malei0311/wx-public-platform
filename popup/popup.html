@@ -1,8 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
+    <div id="app">
+      <ul class="items">
+        <li
+          class="item"
+          :class="activeId ? '' : 'active'"
+          data-id=""
+          @click="onChangeItem"
+        >没有元数据</li>
+        <li
+          v-for="item of items"
+          class="item"
+          :class="item.id === activeId ? 'active' : ''"
+          :data-id="item.id"
+          @click="onChangeItem"
+        >{{ item.name }}</li>
+        <li class="item">
+          <a target="_blank" href="../options/options.html">选项</a>
+        </li>
+      </ul>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script type="module" src="popup.js"></script>
   </body>
 </html>

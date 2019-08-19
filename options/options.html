@@ -1,8 +1,90 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>元数据配置</title>
+    <link rel="stylesheet" href="options.css" />
   </head>
   <body>
+    <div id="app" class="app">
+      <div class="left">
+        <div class="logo">
+          <img src="../images/wechat.png" />
+          <div>元数据配置</div>
+        </div>
+        <div class="action">
+          <div class="btn" @click="onNewItem">新增项目</div>
+        </div>
+        <div class="items-wrp">
+          <div class="items-title">项目列表</div>
+          <ul class="items">
+            <li
+              v-for="item of items"
+              class="item"
+              :class="item.id === activeId ? 'active' : ''"
+              :data-time="item.timeStr"
+              :data-id="item.id"
+              @click="onEditItem"
+            >{{ item.name }}</li>
+          </ul>
+        </div>
+      </div>
+      <div class="right">
+        <item-new
+          v-if="isNew"
+          @new-success="onNewSuccess"
+          @back="onNewBack"
+        ></item-new>
+        <item-edit
+          v-else
+          :active-id="activeId"
+          :key="activeId"
+          @delete="onEditDelete"
+        ></item-edit>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script type="module" src="options.js"></script>
   </body>
 </html>
+
+<template id="new">
+  <div class="item-new-wrp">
+    <div class="form">
+      <div class="form-item">
+        <label>项目名称</label>
+        <input v-model="name" />
+      </div>
+      <div class="form-item">
+        <button class="btn" @click="onNewItem">新增</button>
+        <button class="btn btn-plain" @click="onBack">返回</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="edit">
+  <div class="item-edit-wrp" v-if="activeId">
+    <div class="actions">
+      <div class="msg">
+        [{{ target.name }}] 创建日期 {{ target.timeStr }}
+      </div>
+      <button class="btn btn-danger" @click="onDeleteAll">删除项目</button>
+    </div>
+    <div class="edit-items">
+      <div class="form-item">
+        <input value="路径(path)" disabled>
+        <input value="描述(desc)" disabled>
+      </div>
+      <div class="form-item" v-for="(item, index) in target.items">
+        <input :class="(!item.path.match(/^[\-_=.%&?/#\w]+$/) || (item.desc && !item.path)) ? 'error' : ''" v-model="item.path">
+        <input :class="(item.path && !item.desc) ? 'error' : ''" v-model="item.desc">
+        <button class="btn btn-danger" :data-index="index" @click="onDeleteItem">删除</button>
+      </div>
+      <button class="btn btn-plain" @click="onNew">添加</button>
+      <button class="btn" @click="onSave">保存</button>
+    </div>
+  </div>
+  <div class="item-edit-wrp" v-else>
+    <div class="msg-info">没有正在使用中项目</div>
+  </div>
+</template>

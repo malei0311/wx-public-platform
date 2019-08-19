@@ -86,3 +86,68 @@ export function logSearchParams (params) {
   }
   console.table(Array.from(params))
 }
+
+function promisify (fn, key) {
+  return function (...args) {
+    return new Promise((resolve, reject) => {
+      const cb = args.pop()
+      let isFn = true
+      if (typeof cb !== 'function') {
+        if (key !== 'clear') {
+          args.push(cb)
+        }
+        isFn = false
+      }
+      args.push((items) => {
+        if (chrome.runtime.lastError) {
+          reject(chrome.runtime.lastError)
+          return
+        }
+        isFn && cb(items)
+        resolve(items)
+      })
+      fn.apply(chrome.storage.sync, args)
+    })
+  }
+}
+
+export const storage = new Proxy({}, {
+  get (target, key) {
+    if (chrome.storage.sync[key]) {
+      return promisify(chrome.storage.sync[key], key)
+    } else {
+      throw new Error(`no such api [${key}]`)
+    }
+  }
+})
+
+export function formatDate (timestamp) {
+  const date = new Date(timestamp)
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  const second = date.getSeconds()
+
+  const pad0 = (item) => {
+    return `0${item}`.slice(-2)
+  }
+
+  return [year, month, day].map(pad0).join('/') + ' ' + [hour, minute, second].map(pad0).join(':')
+}
+
+export function download (content, fileName, mimeType = 'text/plain;encoding:utf-8') {
+  if (URL && 'download' in a) {
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(new Blob([content], {
+      type: mimeType
+    }))
+    a.setAttribute('download', fileName)
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+  } else {
+    location.href = 'data:application/octet-stream,' + encodeURIComponent(content)
+  }
+}
