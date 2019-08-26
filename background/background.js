@@ -3,9 +3,10 @@ import { logSearchParams } from '../content/utils.js'
 const host = 'mp.weixin.qq.com'
 const validPaths = [
   '/wxamp/statistics/visit/page',
-  '/wxamp/statistics/ontime'
+  '/wxamp/statistics/ontime',
+  '/wxopen/apprealtimecount'
 ]
-const validRequests = { 
+const validRequests = {
   '/wxopen/apprealtimecount': ['get_page_count'],
   '/wxopen/visitanalysis': ['get_qr_visit_data', 'get_visit_page_top']
 }
@@ -74,9 +75,11 @@ function requestHandler (e = {}) {
   chrome.tabs.sendMessage(e.tabId, { type: 'request', pathname, action })
 }
 
-chrome.runtime.onInstalled.addListener(function() {
+function run () {
   chrome.browserAction.setBadgeText({ text: 'off' })
   chrome.browserAction.setBadgeBackgroundColor({ color: '#ff7979' })
   chrome.webNavigation.onHistoryStateUpdated.addListener(urlHandler, { url: [{ hostEquals: host }] })
   chrome.webRequest.onCompleted.addListener(requestHandler, { urls: [`*://${host}/*`] })
-})
+}
+
+run()

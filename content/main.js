@@ -73,7 +73,8 @@ function getConfig () {
 }
 
 function isOntimePage () {
-  return location.pathname === '/wxamp/statistics/ontime'
+  // ontime 是新的 url, apprealtimecount 是老的 url, 从 自定义分析 -> 实时统计 还是老的 url
+  return location.pathname === '/wxamp/statistics/ontime' || location.pathname === '/wxopen/apprealtimecount'
 }
 
 function listener (e) {
